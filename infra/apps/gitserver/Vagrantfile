@@ -1,0 +1,20 @@
+Vagrant.configure("2") do |config|
+
+  config.vm.box = "debian/buster64"
+
+
+  config.vm.define "git_server" do |git_server|
+    git_server.vm.provider "virtualbox" do |vb|
+      vb.memory = "512"
+    end
+
+    git_server.vm.network "private_network", ip: "172.17.131.13"
+    git_server.vm.hostname = 'git-server'
+
+    git_server.vm.provision "shell", inline: <<-SHELL
+      echo "Adding SSH Key"
+	echo 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIE7aKa7XLKmkJM8I1+++P+xqtZHXHCmsyPhhjh9LJK7e sriram.pinninti8@gmail.com'
+    SHELL
+  end
+end
+

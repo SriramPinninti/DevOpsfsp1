@@ -1,19 +1,21 @@
 Vagrant.configure("2") do |config|
 
-  config.vm.box = "debian/buster64"
+  config.vm.box = "spox/ubuntu-arm"
 
 
   config.vm.define "git_server" do |git_server|
-    git_server.vm.provider "virtualbox" do |vb|
-      vb.memory = "512"
+    git_server.vm.provider "vmware_desktop" do |v|
+      v.memory = "512"
+     # v.gui = false
     end
 
-    git_server.vm.network "private_network", ip: "172.17.131.13"
+    git_server.vm.network "private_network", ip: "192.168.134.13"
     git_server.vm.hostname = 'git-server'
 
     git_server.vm.provision "shell", inline: <<-SHELL
       echo "Adding SSH Key"
-	echo 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIE7aKa7XLKmkJM8I1+++P+xqtZHXHCmsyPhhjh9LJK7e sriram.pinninti8@gmail.com'
+	echo 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPTSUU8n82kFQQJS/h5wqEOMXd1e7mW7+tpFM0rmhMF8 you@example.com' >>/home/vagrant/.ssh/authorized_keys
+
     SHELL
   end
 end

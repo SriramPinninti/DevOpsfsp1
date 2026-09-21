@@ -1,10 +1,7 @@
 - name: Install Packages
-  apt: 
-     state: present
-     name: 
-         - git
-         - acl #needed for ansible to work well with underprivilaged user
-
+  package:
+    name: git
+    state: present
 
 - name: git_user
   user:			        #creating a user on the git_server
@@ -28,7 +25,7 @@
   command: "{{'git init --bare /home/git/repos/' + item + '.git' }}"
   become_user: git
   args:
-     creates: "{{'/home/git/repos/' + item + '.git/head'}}"
+     creates: "{{'/home/git/repos/' + item + '.git/HEAD'}}"
   loop:
   - repo1
   - repo2

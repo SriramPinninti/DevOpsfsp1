@@ -1,35 +1,35 @@
 - name: Install Packages
   apt: 
-	state: present
-	name: 
-	     -git
-	     -acl #needed for ansible to work well with underprivilaged user
+     state: present
+     name: 
+         - git
+         - acl #needed for ansible to work well with underprivilaged user
 
 
 - name: git_user
-  user:			#creating a user on the git_server
-  	name: git
-	shell: /bin/bash
+  user:			        #creating a user on the git_server
+      name: git
+      shell: /bin/bash
 
 
 
 - name: keys allowed to use git
-  authorized_keys:
-	user: git
-	state:present
-	key: '{{item}}'
-	with_file: 
-		- ssh_keys/ram   #this key will have acces to git server as user git
-		#-ssh_keys/another #this too
+  authorized_key:
+        user: git
+        state: present
+        key: '{{item}}'
+  with_file: 
+         - ssh_keys/ram   #this key will have acces to git server as user git
+         #-ssh_keys/another #this too
 
 
 
--name: create repositories
- command:"{{'git init --bare /home/git/repos/' + item + '.git' }}"
- become_user: git
-args:
-	creates: "{{'/home/git/repos/' + item + '.git/head'}}"
-loop:
- -repo1
- -repo2
+- name: create repositories
+  command: "{{'git init --bare /home/git/repos/' + item + '.git' }}"
+  become_user: git
+  args:
+     creates: "{{'/home/git/repos/' + item + '.git/head'}}"
+  loop:
+  - repo1
+  - repo2
 

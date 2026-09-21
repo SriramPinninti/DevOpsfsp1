@@ -1,6 +1,6 @@
 Vagrant.configure("2") do |config|
 
-  config.vm.box = "bento/ubuntu-22.04-arm64"
+  config.vm.box = "bandit145/centos_stream9_arm"
 
 
   config.vm.define "git_server" do |git_server|

@@ -1,8 +1,8 @@
-- name: install common packages
-  apt:
-    pkg:
-       - git
-       - vim
-       - curl
+---
+- name: Install Common Packages
+  ansible.builtin.dnf:
+    name:
+      - vim
+      - git
+      - curl
     state: present
-

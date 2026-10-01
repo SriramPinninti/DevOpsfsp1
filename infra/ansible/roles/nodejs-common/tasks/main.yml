@@ -1,0 +1,24 @@
+---
+- name: Import NodeSource GPG key
+  ansible.builtin.rpm_key:
+    key: https://rpm.nodesource.com/gpgkey/NODESOURCE-GPG-SIGNING-KEY-EL
+    state: present
+
+- name: Add NodeSource repository for Node.js
+  ansible.builtin.yum_repository:
+    name: nodesource
+    description: Node.js Packages for Enterprise Linux
+    baseurl: "https://rpm.nodesource.com/pub_{{ nodejs_version }}.x/el/9/$basearch"
+    enabled: true
+    gpgcheck: true
+    gpgkey: https://rpm.nodesource.com/gpgkey/NODESOURCE-GPG-SIGNING-KEY-EL
+    state: present
+
+- name: Update DNF cache
+  ansible.builtin.dnf:
+    update_cache: true
+
+- name: Ensure Node.js is installed
+  ansible.builtin.dnf:
+    name: nodejs
+    state: present
